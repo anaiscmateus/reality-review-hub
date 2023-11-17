@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+    <title>RealityReviewHub - Feed</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body 
+  x-data="{ addShowModal: false, editShowModal: false }"
+  class="text-gray-800 bg-zinc-100">
+
+  <!-- HEADER -->
+  <header class="text-gray-600 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <a href="/feed" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z" />
+        </svg>
+        <span  class="ml-3 text-xl">RealityReviewHub</span>
+      </a>
+      <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
+        <a href="/logout" class="mr-5 hover:text-gray-900">Sign Out</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PROFILE -->
+  <main>
+    <div class="flex-col justify-center align-center p-6 border-b border-b-2 border-b-gray-300">
+      <div class="flex-col flex-wrap text-center">
+        <div class="text-2xl font-bold flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>            
+          <h1 class="ml-2">MY PROFILE</h1>
+        </div>
+        <% if (user.local.email) { %>
+          <p class="my-2"><span class="mr-2"><strong>ID:</strong></span><%= user._id %></p>
+          <p class="my-2"><span class="mr-2"><strong>EMAIL:</strong></span><%= user.local.email %></p>
+          <p class="my-2 truncate"><span class="mr-2"><strong>PASSWORD:</strong></span><%= user.local.password %></p>
+          <button @click="addShowModal = true" class="my-2 mr-2 inline-block px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 rounded-md hover:bg-green-700">Add TV Show</button>
+          <a href="/logout" class="my-2 inline-block px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Logout</a>
+        <% } %>
+      </div>
+  </main>
+
+  <!-- MY SHOWS -->
+  <section>
+    <section class="flex p-6 justify-evenly text-gray-600 body-font">
+      <!-- SHOWS TO WATCH SECTION - LEFT SIDE -->
+        <section>
+          <h3 class="text-xl text-center mb-5 font-semibold">Shows to Watch</h3>
+          <div class="flex-col items-center m-2 justify-center gap-6 grid-col-span-2">
+            <% for(var i=0; i<shows.length; i++) {%>
+              <% if (shows[i].email === user.local.email && shows[i].watched === false) { %>
+              <div class="flex-col my-2 w-100 rounded-lg border-2 border-gray-600 p-5">
+                <div>
+                  <h2 class="text-xl ml-2 font-bold"><%= shows[i].title %></h2>
+                </div>
+                <div class="flex justify-end">
+                  
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="trash w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                  </svg>                
+                </div>
+                  <button @click="editShowModal = true" class="watchedBtn my-2 mr-2 inline-block px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 rounded-md hover:bg-green-700">Watched</button>
+              </div>
+              <% } %>
+            <% } %>
+          </div>
+        </section>
+      <!-- END OF SHOWS TO WATCH SECTION -->
+  
+      <!-- SHOWS I'VE WATCHED SECTION -->
+        <section>
+          <h3 class="text-xl text-center mb-5 font-semibold">Shows I've Watched</h3>
+          
+          <div class="flex-col items-center justify-center gap-6 grid-col-span-5">
+            <% for(var i=0; i<shows.length; i++) {%>
+              <% if (shows[i].email === user.local.email && shows[i].watched === true) { %>
+              <div class="flex-col rounded-lg border-2 border-gray-600 m-2 p-5">
+                <div>
+                  <h2 class="text-xl font-bold"><%= shows[i].title %></h2>
+                </div>
+                <div>
+                  <span class="text-xl font-semibold">Rating: </span>
+                  <span class="text-xl ml-2 font-semibold"><%= shows[i].rating %></span>
+                </div>
+                <div>
+                  <span class="text-xl font-semibold">Review: </span>
+                  <p class="text-md ml-2 font-semibold"><%= shows[i].review %></p>
+                </div>
+                <div class="flex justify-end">                  
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="trash w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                  </svg>                
+                </div>
+              </div>
+                <% } %>
+              <% } %>
+          </div>
+        </section>
+    </section>
+  </section>
+
+  <!-- MODALS -->
+  <!-- ADD TV SHOW MODAL -->
+  <section 
+    x-show="addShowModal"
+    class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center">
+    <% if (user.local.email) { %>
+    <form action="/add" method="post" id="addShow" class="p-8 bg-gray-800 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100
+    ">
+      <div class="flex justify-between">
+        <h1 class="text-xl font-bold">Add TV Show</h1>
+        <div @click="addShowModal = false" class="cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg> 
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-6 mt-4">
+        <div>
+          <label for="email">Email Address</label>
+          <input type="text" value="<%= user.local.email %>" name="email" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+        </div>
+        <div>
+          <label for="title">Show Name</label>
+          <input type="text" placeholder="ex: Jersey Shore" name="title" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+        </div>
+        <div>
+          <label for="rating">Show Rating</label>
+          <input type="text" placeholder="Out of 5" name="rating" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+        </div>
+        <div>
+          <label for="review">Review</label>
+          <textarea name="review" rows="10" placeholder="The Best Show Ever!" type="textarea" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+        </div>
+
+      </div>
+        </div>
+        <div class="flex justify-between mt-6">
+          <div>
+            <label>
+              <input type="checkbox" id="watched" name="watched" value="true">
+              Have you seen this show?
+            </label>
+          </div>
+            <button class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Add Show</button>
+        </div>
+    </form>
+    <% } %>
+  </section>
+
+    <!-- EDIT TV SHOW MODAL -->
+    <section 
+    x-show="editShowModal"
+    class="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center">
+    <% if (user.local.email) { %>
+    <form id="editShow" class="p-8 bg-gray-800 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 border border-gray-100
+    ">
+      <div class="flex justify-between">
+        <h1 class="text-xl font-bold">Add TV Show</h1>
+        <div @click="editShowModal = false" class="cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg> 
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-6 mt-4">
+        <div>
+          <label for="rating">Show Rating</label>
+          <input type="text" placeholder="Out of 5" id="rating" name="rating" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+        </div>
+        <div>
+          <label for="review">Review</label>
+          <textarea name="review" id="review" rows="10" placeholder="The Best Show Ever!" type="textarea" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+        </div>
+
+      </div>
+        </div>
+        <div class="flex justify-between mt-6">
+            <a id="editShowButton" class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Update Show</a>
+        </div>
+    </form>
+    <% } %>
+  </section>
+
+<script src="main.js"></script>
+</body>
+</html>
