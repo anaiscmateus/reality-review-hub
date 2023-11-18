@@ -1,9 +1,9 @@
-# RealityTVHub - Reality TV Show Tracker 📺🤩
+# RealityReviewHub - Reality TV Show Tracker 📺🤩
 
 ## Project Description
 
 ### Goal
-Create a full-stack application with CRUD functions, utilizing a MongoDB database and incorporating user authentication. RealityTVHub is an app dedicated to reality TV show lovers. Users can log the shows they plan to watch, those they have watched, and add reviews and ratings.
+Create a full-stack application with CRUD functions, utilizing a MongoDB database and incorporating user authentication. RealityReviewHub is an app dedicated to reality TV show lovers. Users can log the shows they plan to watch, those they have watched, and add reviews and ratings.
 
 ![project](https://github.com/anaiscmateus/reality-review-hub/assets/75923327/c4f01876-bd71-4553-9b2c-c18b4272395b)
 
@@ -80,4 +80,4 @@ To get this project up and running, follow these simple steps:
 5. **Open in Browser:**
    - Visit `http://localhost:5000` in your web browser.
 
-Start tracking your favorite reality TV shows on RealityTVHub!
+Start tracking your favorite reality TV shows on RealityReviewHub!
